@@ -16,18 +16,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlayerController {
 
-    private final PlayerRepository repository;
+    private final PlayerRepository playerRepository;
 
     @PostMapping
     public ResponseEntity postPlayer(@RequestBody @Valid PlayerRequestDTO body) {
         Player newPlayer = new Player(body);
-        this.repository.save(newPlayer);
+        playerRepository.save(newPlayer);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity getAllPlayers() {
-        List<PlayerResponseDTO> playerList = this.repository.findAll().stream().map(PlayerResponseDTO::new).toList();
+        List<PlayerResponseDTO> playerList = playerRepository.findAll().stream().map(PlayerResponseDTO::new).toList();
 
         return ResponseEntity.ok(playerList);
     }

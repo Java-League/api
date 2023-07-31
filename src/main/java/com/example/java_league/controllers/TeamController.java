@@ -16,19 +16,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamController {
 
-    private final TeamRepository repository;
+    private final TeamRepository teamRepository;
 
     @PostMapping
     public ResponseEntity postTeam(@RequestBody @Valid TeamRequestDTO body){
         Team newTeam = new Team(body);
 
-        this.repository.save(newTeam);
+        teamRepository.save(newTeam);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity getAllTeams(){
-        List<TeamResponseDTO> teamList = this.repository.findAll().stream().map(TeamResponseDTO::new).toList();
+        List<TeamResponseDTO> teamList = teamRepository.findAll().stream().map(TeamResponseDTO::new).toList();
 
         return ResponseEntity.ok(teamList);
     }
