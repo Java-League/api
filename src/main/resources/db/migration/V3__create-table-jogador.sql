@@ -1,4 +1,4 @@
-CREATE TABLE Player
+CREATE TABLE player
 (
     id         SERIAL  PRIMARY KEY,
     name       TEXT    NOT NULL,
