@@ -16,9 +16,7 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String uniforme1;
     private String uniforme2;
     private String escudo;
