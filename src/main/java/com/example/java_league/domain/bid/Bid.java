@@ -26,7 +26,7 @@ public class Bid implements Serializable {
     private ZonedDateTime date;
 
     @ManyToOne
-    @JoinColumn(name="user_id", insertable = false, updatable = false)
+    @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne
