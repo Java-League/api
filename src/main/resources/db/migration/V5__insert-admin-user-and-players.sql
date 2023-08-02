@@ -8,3 +8,6 @@ INSERT INTO public.player (id, name, overall, price, image_url, is_favorite) VAL
 INSERT INTO public.player (id, name, overall, price, image_url, is_favorite) VALUES (8, 'Alisson', 89, 15000, 'https://cdn.sofifa.net/players/212/831/23_60.png', 'true');
 INSERT INTO public.player (id, name, overall, price, image_url, is_favorite) VALUES (9, 'J.Kimmich', 89, 15000, 'https://cdn.sofifa.net/players/212/622/23_60.png', 'true');
 INSERT INTO public.player (id, name, overall, price, image_url, is_favorite) VALUES (10, 'M. Salah', 89, 15000, 'https://cdn.sofifa.net/players/209/331/23_60.png', 'true');
+
+
+INSERT INTO public.users (login, password, role) VALUES ('admin', '$2a$10$WJXRtH7GoLMt8RtqmgD95e.3jJy2G.SqbmpG.iGFcLU2H.UDePmrS', '0');

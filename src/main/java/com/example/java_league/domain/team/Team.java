@@ -6,8 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "team")
-@Entity(name = "team")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,14 +16,14 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String uniforme1;
-    private String uniforme2;
-    private String escudo;
+    private String uniform1;
+    private String uniform2;
+    private String emblem;
 
-    public Team(TeamRequestDTO data){
+    public Team(TeamRequestDTO data) {
         this.name = data.name();
-        this.uniforme1 = data.uniforme1();
-        this.uniforme2 = data.uniforme2();
-        this.escudo = data.escudo();
+        this.uniform1 = data.uniform1();
+        this.uniform2 = data.uniform2();
+        this.emblem = data.emblem();
     }
 }

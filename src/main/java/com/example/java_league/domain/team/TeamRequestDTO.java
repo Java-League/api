@@ -7,12 +7,12 @@ public record TeamRequestDTO(
         String name,
 
         @NotBlank
-        String uniforme1,
+        String uniform1,
 
         @NotBlank
-        String uniforme2,
+        String uniform2,
 
         @NotBlank
-        String escudo
+        String emblem
 ) {
 }
