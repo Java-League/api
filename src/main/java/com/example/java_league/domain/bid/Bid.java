@@ -7,13 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -32,9 +29,9 @@ public class Bid implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "player_id", referencedColumnName = "id")
-    private List<Player> player;
+    private Player player;
 }
 
 
