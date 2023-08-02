@@ -1,13 +1,13 @@
 package com.example.java_league.domain.player;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.java_league.domain.bid.Bid;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,6 +23,10 @@ public class Player {
     private Double price;
     private String imageUrl;
     private Boolean isFavorite;
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "bid_id")
+    private List<Bid> bid;
 
     public Player(PlayerRequestDTO data) {
         this.name = data.name();
