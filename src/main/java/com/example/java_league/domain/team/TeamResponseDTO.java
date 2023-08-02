@@ -1,7 +1,7 @@
 package com.example.java_league.domain.team;
 
-public record TeamResponseDTO(Long id, String name, String uniforme1, String uniforme2, String escudo) {
+public record TeamResponseDTO(Long id, String name, String uniform1, String uniform2, String emblem) {
     public TeamResponseDTO(Team team) {
-        this(team.getId(), team.getName(), team.getUniforme1(), team.getUniforme2(), team.getEscudo());
+        this(team.getId(), team.getName(), team.getUniform1(), team.getUniform2(), team.getEmblem());
     }
 }
