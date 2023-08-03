@@ -1,15 +1,8 @@
 package com.example.java_league.controllers;
 
-import com.example.java_league.domain.team.Team;
-import com.example.java_league.domain.team.TeamRequestDTO;
-import com.example.java_league.domain.team.TeamResponseDTO;
-import com.example.java_league.repositories.TeamRepository;
-import jakarta.validation.Valid;
+import com.example.java_league.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("team")
@@ -18,18 +11,18 @@ public class TeamController {
 
     private final TeamRepository teamRepository;
 
-    @PostMapping
-    public ResponseEntity postTeam(@RequestBody @Valid TeamRequestDTO body){
-        Team newTeam = new Team(body);
-
-        teamRepository.save(newTeam);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping
-    public ResponseEntity getAllTeams(){
-        List<TeamResponseDTO> teamList = teamRepository.findAll().stream().map(TeamResponseDTO::new).toList();
-
-        return ResponseEntity.ok(teamList);
-    }
+//    @PostMapping
+//    public ResponseEntity postTeam(@RequestBody @Valid TeamRequestDTO body){
+//        Team newTeam = new Team(body);
+//
+//        teamRepository.save(newTeam);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity getAllTeams(){
+//        List<TeamResponseDTO> teamList = teamRepository.findAll().stream().map(TeamResponseDTO::new).toList();
+//
+//        return ResponseEntity.ok(teamList);
+//    }
 }

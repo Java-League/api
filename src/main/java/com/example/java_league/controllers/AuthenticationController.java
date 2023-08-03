@@ -1,11 +1,11 @@
 package com.example.java_league.controllers;
 
-import com.example.java_league.domain.user.AuthenticationDTO;
-import com.example.java_league.domain.user.LoginResponseDTO;
-import com.example.java_league.domain.user.RegisterDTO;
-import com.example.java_league.domain.user.User;
-import com.example.java_league.infra.security.TokenService;
-import com.example.java_league.repositories.UserRepository;
+import com.example.java_league.record.AuthenticationRecord;
+import com.example.java_league.record.LoginResponseRecord;
+import com.example.java_league.record.RegisterRecord;
+import com.example.java_league.domain.User;
+import com.example.java_league.security.TokenService;
+import com.example.java_league.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +30,17 @@ public class AuthenticationController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
+    public ResponseEntity login(@RequestBody @Valid AuthenticationRecord data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseRecord(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) throws URISyntaxException {
+    public ResponseEntity register(@RequestBody @Valid RegisterRecord data) throws URISyntaxException {
         if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
@@ -49,6 +49,5 @@ public class AuthenticationController {
         this.repository.save(newUser);
 
         return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin())).body(newUser);
-//        return ResponseEntity.ok().build();
     }
 }

@@ -1,34 +1,39 @@
 package com.example.java_league.controllers;
 
-import com.example.java_league.domain.player.Player;
-import com.example.java_league.domain.player.PlayerRequestDTO;
-import com.example.java_league.domain.player.PlayerResponseDTO;
-import com.example.java_league.repositories.PlayerRepository;
+import com.example.java_league.dto.PlayerDTO;
+import com.example.java_league.service.PlayerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("player")
+@RequestMapping("api")
 @RequiredArgsConstructor
 public class PlayerController {
 
-    private final PlayerRepository playerRepository;
+    private final PlayerService playerService;
 
-    @PostMapping
-    public ResponseEntity postPlayer(@RequestBody @Valid PlayerRequestDTO body) {
-        Player newPlayer = new Player(body);
-        playerRepository.save(newPlayer);
-        return ResponseEntity.ok().build();
+    @PostMapping("/player")
+    public ResponseEntity postPlayer(@RequestBody @Valid PlayerDTO body) {
+        PlayerDTO playerDTO = playerService.save(body);
+        return ResponseEntity.ok(playerDTO);
     }
 
-    @GetMapping
+    @GetMapping("/player")
     public ResponseEntity getAllPlayers() {
-        List<PlayerResponseDTO> playerList = playerRepository.findAll().stream().map(PlayerResponseDTO::new).toList();
+        List<PlayerDTO> playerDTOS = playerService.getAllPlayers();
+        return ResponseEntity.ok(playerDTOS);
+    }
 
-        return ResponseEntity.ok(playerList);
+    @MessageMapping("/news")
+    @SendTo("/topic/news")
+    public String broadcastNews(@Payload String message) {
+        return message;
     }
 }
