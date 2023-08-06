@@ -5,6 +5,7 @@ import com.example.java_league.dto.BidDTO;
 import com.example.java_league.mapper.BidMapper;
 import com.example.java_league.repository.BidRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -15,13 +16,13 @@ public class BidService {
 
     private final BidRepository bidRepository;
     private final BidMapper bidMapper;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public BidDTO save(BidDTO bidDTO) {
         Bid bid = bidMapper.toEntity(bidDTO);
         bid.setDate(ZonedDateTime.now());
-        // Implemente a lógica para cadastrar o jogador no banco de dados
         bid = bidRepository.save(bid);
+        simpMessagingTemplate.convertAndSend("/topic/bids", bid);
         return bidMapper.toDto(bid);
     }
-
 }

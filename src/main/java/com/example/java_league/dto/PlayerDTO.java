@@ -16,5 +16,4 @@ public class PlayerDTO {
     private Long overall;
     private BigDecimal price;
     private String imageUrl;
-    private Boolean isFavorite;
 }

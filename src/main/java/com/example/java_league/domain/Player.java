@@ -21,7 +21,6 @@ public class Player {
     private Long overall;
     private Double price;
     private String imageUrl;
-    private Boolean isFavorite;
 
     @ManyToOne
     @JoinColumn(name = "team_id")

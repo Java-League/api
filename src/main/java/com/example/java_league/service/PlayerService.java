@@ -25,9 +25,14 @@ public class PlayerService {
     }
 
     public List<PlayerDTO> getAllPlayers() {
-        List<Player> jogadores = playerRepository.findAll();
-        return jogadores.stream()
+        List<Player> player = playerRepository.findAll();
+        return player.stream()
                 .map(playerMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public PlayerDTO getPlayerById(Long id) {
+        Player player = playerRepository.findById(id).get();
+        return playerMapper.toDto(player);
     }
 }
