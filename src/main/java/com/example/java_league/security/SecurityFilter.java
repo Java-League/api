@@ -1,6 +1,10 @@
 package com.example.java_league.security;
 
+import com.example.java_league.domain.Team;
+import com.example.java_league.domain.User;
+import com.example.java_league.repository.TeamRepository;
 import com.example.java_league.repository.UserRepository;
+import com.example.java_league.security.jwt.JWTUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,15 +24,18 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         if(token != null){
             var login = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByLogin(login);
+            User user = userRepository.findByLogin(login);
+            Team team = teamRepository.findFirstByUserId(user.getId());
+            JWTUser jwtUser = new JWTUser(user.getUsername(), "", team != null ? team.getId() : 0);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            var authentication = new UsernamePasswordAuthenticationToken(jwtUser, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);

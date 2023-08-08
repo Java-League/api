@@ -14,8 +14,8 @@ import java.time.ZonedDateTime;
 public class BidDTO implements Serializable {
 
     private Long id;
-    private BigDecimal bidValue;
+    private Long value;
     private ZonedDateTime date;
-    private Long userId;
+    private Long teamId;
     private Long playerId;
 }

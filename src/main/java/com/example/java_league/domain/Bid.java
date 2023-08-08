@@ -18,16 +18,16 @@ public class Bid implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal bidValue;
+    private Long value;
     private ZonedDateTime date;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
+    @JoinColumn(name = "team_id", insertable = false, updatable = false)
+    private Team team;
 
     @NotNull
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "team_id")
+    private Long teamId;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id", insertable = false, updatable = false)
@@ -36,6 +36,13 @@ public class Bid implements Serializable {
     @NotNull
     @Column(name = "player_id")
     private Long playerId;
+
+    public Bid(Long value, Long teamId, Long playerId) {
+        this.value = value;
+        this.teamId = teamId;
+        this.playerId = playerId;
+        this.date = ZonedDateTime.now();
+    }
 }
 
 

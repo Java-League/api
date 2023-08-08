@@ -4,6 +4,7 @@ import com.example.java_league.domain.Bid;
 import com.example.java_league.dto.BidDTO;
 import com.example.java_league.mapper.BidMapper;
 import com.example.java_league.repository.BidRepository;
+import com.example.java_league.repository.PlayerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.time.ZonedDateTime;
 public class BidService {
 
     private final BidRepository bidRepository;
+    private final PlayerRepository playerRepository;
     private final BidMapper bidMapper;
     private final SimpMessagingTemplate simpMessagingTemplate;
 

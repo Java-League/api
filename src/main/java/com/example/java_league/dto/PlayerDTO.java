@@ -14,6 +14,9 @@ public class PlayerDTO {
     private Long id;
     private String name;
     private Long overall;
-    private BigDecimal price;
+    private Long price;
     private String imageUrl;
+    private Long teamId;
+    private Long priceLimit;
+    private Boolean hasBidForTeam;
 }

@@ -16,7 +16,7 @@ public class UserDTO {
 
     Long id;
     String login;
-    String password;
     UserRole role;
+    String token;
     List<BidDTO> bids;
 }

@@ -1,13 +1,15 @@
 package com.example.java_league.controllers;
 
+import com.example.java_league.dto.BidResponseDTO;
 import com.example.java_league.dto.PlayerDTO;
+import com.example.java_league.security.TokenService;
 import com.example.java_league.service.PlayerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerService playerService;
+    private final SimpMessagingTemplate template;
+    private final TokenService tokenService;
 
     @PostMapping("/player")
     public ResponseEntity postPlayer(@RequestBody @Valid PlayerDTO body) {
@@ -26,14 +30,22 @@ public class PlayerController {
     }
 
     @GetMapping("/player")
-    public ResponseEntity getAllPlayers() {
-        List<PlayerDTO> playerDTOS = playerService.getAllPlayers();
+    public ResponseEntity getAllPlayersWithMaxBid() {
+        Long teamId = tokenService.getCurrentTeamId().orElse(null);
+        List<PlayerDTO> playerDTOS = playerService.getAllPlayersWithMaxBid(teamId);
         return ResponseEntity.ok(playerDTOS);
     }
 
-    @MessageMapping("/news")
-    @SendTo("/topic/news")
-    public String broadcastNews(@Payload String message) {
-        return message;
+    @PatchMapping("/player/{id}/bid")
+    public ResponseEntity<Void> updateValue(@PathVariable("id") Long id, @RequestParam("bidValue") Long bidValue) {
+        Long teamId = tokenService.getCurrentTeamId().orElse(null);
+        BidResponseDTO bidRespondeDTO = playerService.bid(bidValue, teamId, id);
+        template.convertAndSend("/topic/bid", bidRespondeDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @SendTo("/topic/bid")
+    public BidResponseDTO broadcastMessage(@Payload BidResponseDTO bidRespondeDTO) {
+        return bidRespondeDTO;
     }
 }
