@@ -18,6 +18,7 @@ public class Team {
     private String uniform1;
     private String uniform2;
     private String emblem;
+    private String formation;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

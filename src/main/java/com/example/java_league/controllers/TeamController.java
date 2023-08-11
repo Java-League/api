@@ -1,6 +1,7 @@
 package com.example.java_league.controllers;
 
 import com.example.java_league.domain.Team;
+import com.example.java_league.dto.BidResponseDTO;
 import com.example.java_league.dto.PlayerDTO;
 import com.example.java_league.dto.TeamDTO;
 import com.example.java_league.mapper.TeamMapper;
@@ -30,9 +31,31 @@ public class TeamController {
         return ResponseEntity.ok(teamDTO);
     }
 
+
+    @PostMapping("team/current")
+    public ResponseEntity saveCurrentTeam(@PathVariable("teamId") Long teamId){
+        Long userId = tokenService.getCurrentUserId().orElse(null);
+        TeamDTO teamDTO = teamService.saveCurrentTeam(teamId, userId);
+        return ResponseEntity.ok(teamDTO);
+    }
+
     @GetMapping("team")
     public ResponseEntity getAllTeam(){
         List<TeamDTO> teamDTO = teamService.getAllTeams();
         return ResponseEntity.ok(teamDTO);
+    }
+
+    @GetMapping("team/available")
+    public ResponseEntity getAllTeamsAavailable(){
+        List<TeamDTO> teamDTO = teamService.getAllTeamsAavailable();
+        return ResponseEntity.ok(teamDTO);
+    }
+
+
+    @PostMapping("/team/{playerId}/player")
+    public ResponseEntity<Void> updateValue(@PathVariable("playerId") Long playerId, @RequestParam("position") Long position) {
+        Long teamId = tokenService.getCurrentTeamId().orElse(null);
+        teamService.saveTeamPlayer(teamId, playerId, position);
+        return ResponseEntity.ok().build();
     }
 }

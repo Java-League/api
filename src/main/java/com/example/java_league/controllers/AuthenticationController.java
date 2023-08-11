@@ -50,7 +50,7 @@ public class AuthenticationController {
 
         User user = userRepository.findByLogin(data.login());
         Team team = teamRepository.findFirstByUserId(user.getId());
-        JWTUser principal = new JWTUser(user.getUsername(), user.getPassword(), team != null ? team.getId() : 0);
+        JWTUser principal = new JWTUser(user.getId(), user.getUsername(), user.getPassword(), team != null ? team.getId() : 0);
         String token = tokenService.generateToken(principal);
 
         return ResponseEntity.ok(new LoginResponseRecord(token, team != null ? team.getId() : 0));

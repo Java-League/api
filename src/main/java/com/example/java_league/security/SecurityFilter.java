@@ -33,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             var login = tokenService.validateToken(token);
             User user = userRepository.findByLogin(login);
             Team team = teamRepository.findFirstByUserId(user.getId());
-            JWTUser jwtUser = new JWTUser(user.getUsername(), "", team != null ? team.getId() : 0);
+            JWTUser jwtUser = new JWTUser(user.getId(), user.getUsername(), "", team != null ? team.getId() : 0);
 
             var authentication = new UsernamePasswordAuthenticationToken(jwtUser, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

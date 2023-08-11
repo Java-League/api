@@ -31,6 +31,7 @@ public class TokenService {
                     .withIssuer("java_league-api")
                     .withSubject(user.getUsername())
                     .withClaim("teamId", user.getTeamId())
+                    .withClaim("userId", user.getId())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
@@ -71,6 +72,25 @@ public class TokenService {
                 return null;
             }
             return springSecurityUser.getTeamId();
+        }
+        return null;
+    }
+
+    public Optional<Long> getCurrentUserId() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return Optional.ofNullable(extractUserId(securityContext.getAuthentication()));
+    }
+
+    public Long extractUserId(Authentication authentication) {
+        if (authentication == null) return null;
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof JWTUser) {
+            JWTUser springSecurityUser = (JWTUser) authentication.getPrincipal();
+            if (springSecurityUser.getId() == 0L) {
+                return null;
+            }
+            return springSecurityUser.getId();
         }
         return null;
     }

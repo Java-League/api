@@ -15,4 +15,14 @@ public interface PlayerMapper extends EntityMapper<PlayerDTO, Player> {
 
     @Mapping(target = "team", ignore = true)
     Player toEntity(PlayerDTO playerDTO);
+
+    default Player map(Long playerId) {
+        if (playerId == null) {
+            return null;
+        }
+
+        Player player = new Player();
+        player.setId(playerId);
+        return player;
+    }
 }

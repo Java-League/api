@@ -8,7 +8,8 @@ public class JWTUser extends User {
 
     private Long teamId;
 
-    public JWTUser(String username, String password, Long teamId) {
+    public JWTUser(Long id, String username, String password, Long teamId) {
+        this.setId(id);
         this.setLogin(username);
         this.setPassword(password);
         this.teamId = teamId;
